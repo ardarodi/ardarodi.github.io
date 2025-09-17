@@ -1,0 +1,26 @@
+title: Arda Rodi - UI/UX Designer
+description: Modern UI/UX tasarımcısı portfolyosu
+url: "https://ardarodi.github.io"
+baseurl: "/ardarodi"
+
+# Build settings
+markdown: kramdown
+highlighter: rouge
+theme: minima
+
+# Exclude files
+exclude:
+  - README.md
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Include files
+include:
+  - _pages
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
