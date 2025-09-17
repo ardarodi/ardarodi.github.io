@@ -94,7 +94,6 @@ contactForm.addEventListener('submit', (e) => {
     });
     
     if (isValid) {
-        // Here you would typically send the form data to a server
         alert('Mesajınız başarıyla gönderildi! En kısa sürede size dönüş yapacağım.');
         contactForm.reset();
     } else {
@@ -102,15 +101,24 @@ contactForm.addEventListener('submit', (e) => {
     }
 });
 
-// Typing effect for hero title
+// Typing effect için güncelleme - Türkçe karakterleri destekler
 function typeWriter(element, text, speed = 100) {
     let i = 0;
     element.innerHTML = '';
     
     function type() {
         if (i < text.length) {
-            element.innerHTML += text.charAt(i);
-            i++;
+            if (text.charAt(i) === '<') {
+                // HTML tag'ları içinde atla
+                const tagEnd = text.indexOf('>', i);
+                if (tagEnd !== -1) {
+                    element.innerHTML += text.substring(i, tagEnd + 1);
+                    i = tagEnd + 1;
+                }
+            } else {
+                element.innerHTML += text.charAt(i);
+                i++;
+            }
             setTimeout(type, speed);
         }
     }
@@ -121,11 +129,13 @@ function typeWriter(element, text, speed = 100) {
 // Initialize typing effect when page loads
 window.addEventListener('load', () => {
     const heroTitle = document.querySelector('.hero-title');
-    const originalText = heroTitle.innerHTML;
-    
-    setTimeout(() => {
-        typeWriter(heroTitle, originalText, 50);
-    }, 500);
+    if (heroTitle) {
+        const originalText = heroTitle.innerHTML;
+        
+        setTimeout(() => {
+            typeWriter(heroTitle, originalText, 80);
+        }, 500);
+    }
 });
 
 // Parallax effect for floating cards
@@ -161,3 +171,43 @@ window.addEventListener('scroll', () => {
         }
     });
 });
+
+// Mobile navigation CSS eklemeleri için
+const style = document.createElement('style');
+style.textContent = `
+    @media (max-width: 768px) {
+        .nav-menu {
+            position: fixed;
+            left: -100%;
+            top: 70px;
+            flex-direction: column;
+            background-color: white;
+            width: 100%;
+            text-align: center;
+            transition: 0.3s;
+            box-shadow: 0 10px 27px rgba(0, 0, 0, 0.05);
+            z-index: 999;
+        }
+        
+        .nav-menu.active {
+            left: 0;
+        }
+        
+        .nav-item {
+            margin: 2.5rem 0;
+        }
+        
+        .hamburger.active .bar:nth-child(2) {
+            opacity: 0;
+        }
+        
+        .hamburger.active .bar:nth-child(1) {
+            transform: translateY(8px) rotate(45deg);
+        }
+        
+        .hamburger.active .bar:nth-child(3) {
+            transform: translateY(-8px) rotate(-45deg);
+        }
+    }
+`;
+document.head.appendChild(style);
