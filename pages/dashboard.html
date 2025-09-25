@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Modern RES</title>
+
+    <!-- External CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome - Güncel Sürüm -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <!-- Custom Dashboard CSS -->
+    <link rel="stylesheet" href="../assets/css/dashboard.css">
+
+    <!-- Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'secondary': '#8b5cf6',
+                        'accent': '#06b6d4',
+                        'soft-gray': '#f8fafc',
+                        'soft-blue': '#f1f5f9',
+                        'warm-gray': '#f9fafb'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-warm-gray no-scrollbar">
+<!-- Loading Screen -->
+<div id="loading-screen" class="fixed inset-0 bg-white z-50 flex items-center justify-center">
+    <div class="text-center">
+        <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+        <p class="text-gray-600 font-medium">Dashboard yükleniyor...</p>
+    </div>
+</div>
+
+<div class="flex h-screen no-scrollbar" id="dashboardContainer">
+    <!-- Modern Sidebar -->
+    <aside class="sidebar-modern text-white flex flex-col lg:relative fixed z-40" id="sidebar">
+        <!-- Logo Section -->
+        <div class="p-6 border-b border-white/10">
+            <div class="flex items-center space-x-3">
+                <div class="w-10 h-10 bg-white/20 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-graduation-cap text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="font-bold text-lg">RES Dashboard</h1>
+                    <p class="text-xs text-white/70">Rehabilitasyon Eğitim Sistemi</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- User Profile -->
+        <div class="p-5 border-b border-white/10">
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-gradient-to-br from-white/20 to-white/10 rounded-xl flex items-center justify-center">
+                    <i class="fas fa-user text-lg"></i>
+                </div>
+                <div class="flex-1">
+                    <p class="font-semibold text-sm" data-user-name>Yükleniyor...</p>
+                    <p class="text-xs text-white/70 truncate" data-user-email>-</p>
+                </div>
+                <div class="w-3 h-3 bg-green-400 rounded-full animate-pulse"></div>
+            </div>
+        </div>
+
+        <!-- Navigation -->
+        <nav class="flex-1 p-4 space-y-2 sidebar-scroll" data-content>
+            <!-- Panel Anasayfa -->
+            <a href="#dashboard" class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main sidebar-item-active">
+                <div class="flex items-center space-x-3">
+                    <div class="sidebar-icon"><i class="fas fa-home"></i></div>
+                    <span>Panel Anasayfa</span>
+                </div>
+            </a>
+
+            <!-- Site Anasayfa -->
+            <button data-home class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left">
+                <div class="flex items-center space-x-3">
+                    <div class="sidebar-icon"><i class="fas fa-globe"></i></div>
+                    <span>Site Anasayfa</span>
+                </div>
+            </button>
+
+            <!-- Lisansım -->
+            <a href="#license" class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main">
+                <div class="flex items-center space-x-3">
+                    <div class="sidebar-icon"><i class="fas fa-certificate"></i></div>
+                    <span>Lisansım</span>
+                </div>
+            </a>
+
+            <!-- Alt Kullanıcı İşlemleri -->
+            <div class="sidebar-dropdown">
+                <button class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left" onclick="toggleModernSubmenu('users')">
+                    <div class="flex items-center space-x-3">
+                        <div class="sidebar-icon"><i class="fas fa-users"></i></div>
+                        <span>Alt Kullanıcı İşlemleri</span>
+                    </div>
+                    <i class="fas fa-chevron-down chevron-icon text-sm" id="users-chevron"></i>
+                </button>
+                <div class="sidebar-submenu" id="users-menu">
+                    <a href="#users/add" class="sidebar-item-sub block p-2.5">Alt Kullanıcı Ekle</a>
+                    <a href="#users/how-to-add" class="sidebar-item-sub block p-2.5">Alt Kullanıcı Nasıl Eklenir?</a>
+                </div>
+            </div>
+
+            <!-- BEP İşlemleri -->
+            <div class="sidebar-dropdown">
+                <button class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left" onclick="toggleModernSubmenu('bep')">
+                    <div class="flex items-center space-x-3">
+                        <div class="sidebar-icon"><i class="fas fa-edit"></i></div>
+                        <span>BEP İşlemleri</span>
+                    </div>
+                    <i class="fas fa-chevron-down chevron-icon text-sm" id="bep-chevron"></i>
+                </button>
+                <div class="sidebar-submenu" id="bep-menu">
+                    <a href="#bep/prepare" class="sidebar-item-sub block p-2.5">BEP Hazırla</a>
+                    <a href="#bep/history" class="sidebar-item-sub block p-2.5">BEP Geçmişim</a>
+                    <a href="#bep/how-to-prepare" class="sidebar-item-sub block p-2.5">BEP Nasıl Hazırlanır?</a>
+                    <a href="#bep/zep-prepare" class="sidebar-item-sub block p-2.5">ZEP Hazırla</a>
+                    <a href="#bep/kaba-form" class="sidebar-item-sub block p-2.5">Kaba Değerlendirme Formu Hazırla</a>
+                </div>
+            </div>
+
+            <!-- Ders Talep Et -->
+            <a href="#lesson-request" class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main">
+                <div class="flex items-center space-x-3">
+                    <div class="sidebar-icon"><i class="fas fa-chalkboard-teacher"></i></div>
+                    <span>Ders Talep Et</span>
+                </div>
+            </a>
+
+            <!-- BEP Dosyası Şablonlar -->
+            <div class="sidebar-dropdown">
+                <button class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left" onclick="toggleModernSubmenu('bep-templates')">
+                    <div class="flex items-center space-x-3">
+                        <div class="sidebar-icon"><i class="fas fa-file-alt"></i></div>
+                        <span>BEP Dosyası Şablonlar</span>
+                    </div>
+                    <i class="fas fa-chevron-down chevron-icon text-sm" id="bep-templates-chevron"></i>
+                </button>
+                <div class="sidebar-submenu" id="bep-templates-menu">
+                    <a href="#bep-templates/cover" class="sidebar-item-sub block p-2.5">BEP Dosya Kapağı</a>
+                    <a href="#bep-templates/student-info" class="sidebar-item-sub block p-2.5">BEP Öğrenci Bilgileri</a>
+                    <a href="#bep-templates/performance-form" class="sidebar-item-sub block p-2.5">Eğitsel Performans Formu</a>
+                    <a href="#bep-templates/development-decisions" class="sidebar-item-sub block p-2.5">BEP Geliştirme Birimi Kararları</a>
+                    <a href="#bep-templates/sample-forms" class="sidebar-item-sub block p-2.5">Örnek Öğrenci Bilgileri Ve Eğitsel Performans Formları</a>
+                </div>
+            </div>
+
+            <!-- Dokümanlar -->
+            <div class="sidebar-dropdown">
+                <button class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left" onclick="toggleModernSubmenu('documents')">
+                    <div class="flex items-center space-x-3">
+                        <div class="sidebar-icon"><i class="fas fa-folder"></i></div>
+                        <span>Dokümanlar</span>
+                    </div>
+                    <i class="fas fa-chevron-down chevron-icon text-sm" id="documents-chevron"></i>
+                </button>
+                <div class="sidebar-submenu" id="documents-menu">
+                    <a href="#documents/list" class="sidebar-item-sub block p-2.5">Dokümanlar</a>
+                </div>
+            </div>
+
+            <!-- Destek İşlemleri -->
+            <div class="sidebar-dropdown">
+                <button class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left" onclick="toggleModernSubmenu('support')">
+                    <div class="flex items-center space-x-3">
+                        <div class="sidebar-icon"><i class="fas fa-headset"></i></div>
+                        <span>Destek İşlemleri</span>
+                    </div>
+                    <i class="fas fa-chevron-down chevron-icon text-sm" id="support-chevron"></i>
+                </button>
+                <div class="sidebar-submenu" id="support-menu">
+                    <a href="#support/contact" class="sidebar-item-sub block p-2.5">İletişim</a>
+                    <a href="#support/ticket" class="sidebar-item-sub block p-2.5">Destek Talebi</a>
+                </div>
+            </div>
+
+            <!-- MEB Çerçeve Yıllık Planlar -->
+            <a href="#meb-plans" class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main">
+                <div class="flex items-center space-x-3">
+                    <div class="sidebar-icon"><i class="fas fa-calendar-alt"></i></div>
+                    <span>MEB Çerçeve Yıllık Planlar</span>
+                </div>
+            </a>
+
+            <!-- Kavram Öğretimi -->
+            <a href="#kavram-ogretimi" class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main">
+                <div class="flex items-center space-x-3">
+                    <div class="sidebar-icon"><i class="fas fa-lightbulb"></i></div>
+                    <span>Kavram Öğretimi</span>
+                </div>
+            </a>
+
+            <!-- Kaynaştırma Öğrencileri İçin Uyarlanmış Etkinlikler -->
+            <a href="#kaynastirma-etkinlikler" class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main">
+                <div class="flex items-center space-x-3">
+                    <div class="sidebar-icon"><i class="fas fa-puzzle-piece"></i></div>
+                    <span>Kaynaştırma Öğrencileri İçin Uyarlanmış Etkinlikler</span>
+                </div>
+            </a>
+
+            <!-- Okul Öncesi Uyarlanmış Etkinlikler Seti -->
+            <div class="sidebar-dropdown">
+                <button class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left" onclick="toggleModernSubmenu('preschool')">
+                    <div class="flex items-center space-x-3">
+                        <div class="sidebar-icon"><i class="fas fa-child"></i></div>
+                        <span>Okul Öncesi Uyarlanmış Etkinlikler Seti</span>
+                    </div>
+                    <i class="fas fa-chevron-down chevron-icon text-sm" id="preschool-chevron"></i>
+                </button>
+                <div class="sidebar-submenu" id="preschool-menu">
+                    <a href="#preschool/cognitive" class="sidebar-item-sub block p-2.5">Bilişsel Gelişim Alanı Kitabı</a>
+                    <a href="#preschool/language" class="sidebar-item-sub block p-2.5">Dil Gelişimi Alanı Kitabı</a>
+                    <a href="#preschool/motor" class="sidebar-item-sub block p-2.5">Motor Gelişim Alanı Kitabı</a>
+                    <a href="#preschool/social" class="sidebar-item-sub block p-2.5">Sosyal Duygusal Gelişim Alanı Kitabı</a>
+                    <a href="#preschool/self-care" class="sidebar-item-sub block p-2.5">Uyumsal Beceriler Gelişim Kitabı</a>
+                </div>
+            </div>
+
+            <!-- Destek Eğitim Odası Etkinlik Kitapları -->
+            <div class="sidebar-dropdown">
+                <button class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left" onclick="toggleModernSubmenu('support-education')">
+                    <div class="flex items-center space-x-3">
+                        <div class="sidebar-icon"><i class="fas fa-book-open"></i></div>
+                        <span>Destek Eğitim Odası Etkinlik Kitapları</span>
+                    </div>
+                    <i class="fas fa-chevron-down chevron-icon text-sm" id="support-education-chevron"></i>
+                </button>
+                <div class="sidebar-submenu" id="support-education-menu">
+                    <a href="#support/life-science-2-3" class="sidebar-item-sub block p-2.5">Hayat Bilgisi 2. - 3. Sınıf Kitabı</a>
+                    <a href="#support/turkish-2-4" class="sidebar-item-sub block p-2.5">Türkçe 2. - 3. - 4. Sınıf Kitabı</a>
+                    <a href="#support/turkish-5-7" class="sidebar-item-sub block p-2.5">Türkçe 5. - 6. - 7. Sınıf Kitabı</a>
+                    <a href="#support/math-2-4" class="sidebar-item-sub block p-2.5">Matematik 2. - 3. - 4. Sınıf Kitabı</a>
+                    <a href="#support/math-5-7" class="sidebar-item-sub block p-2.5">Matematik 5. - 6. - 7. Sınıf Kitabı</a>
+                    <a href="#support/science-3-4" class="sidebar-item-sub block p-2.5">Fen Bilgisi 3. - 4. Sınıf Kitabı</a>
+                    <a href="#support/science-5-7" class="sidebar-item-sub block p-2.5">Fen Bilimleri 5. - 6. - 7. Sınıf Kitabı</a>
+                    <a href="#support/social-4" class="sidebar-item-sub block p-2.5">Sosyal Bilgiler 4. Sınıf Kitabı</a>
+                    <a href="#support/social-5-7" class="sidebar-item-sub block p-2.5">Sosyal Bilgiler 5. - 6. - 7. Sınıf Kitabı</a>
+                </div>
+            </div>
+
+            <!-- Özel Yetenekli Öğrenciler İçin Destek Eğitim Odası Etkinlik Kitapları -->
+            <div class="sidebar-dropdown">
+                <button class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left" onclick="toggleModernSubmenu('gifted')">
+                    <div class="flex items-center space-x-3">
+                        <div class="sidebar-icon"><i class="fas fa-star"></i></div>
+                        <span>Özel Yetenekli Öğrenciler İçin Destek Eğitim Odası Etkinlik Kitapları</span>
+                    </div>
+                    <i class="fas fa-chevron-down chevron-icon text-sm" id="gifted-chevron"></i>
+                </button>
+                <div class="sidebar-submenu" id="gifted-menu">
+                    <a href="#gifted/enrichment" class="sidebar-item-sub block p-2.5">Özel Yetenekli Öğrenciler İçin Zenginleştirilmiş Etkinlik Örnekleri</a>
+                    <a href="#gifted/life-science-2-3" class="sidebar-item-sub block p-2.5">Hayat Bilgisi 2. - 3. Sınıf Kitabı</a>
+                    <a href="#gifted/turkish-2-4" class="sidebar-item-sub block p-2.5">Türkçe 2. - 3. - 4. Sınıf Kitabı</a>
+                    <a href="#gifted/turkish-5-7" class="sidebar-item-sub block p-2.5">Türkçe 5. - 6. - 7. Sınıf Kitabı</a>
+                    <a href="#gifted/math-2-4" class="sidebar-item-sub block p-2.5">Matematik 2. - 3. - 4. Sınıf Kitabı</a>
+                    <a href="#gifted/math-5-7" class="sidebar-item-sub block p-2.5">Matematik 5. - 6. - 7. Sınıf Kitabı</a>
+                    <a href="#gifted/science-3-4" class="sidebar-item-sub block p-2.5">Fen Bilgisi 3. - 4. Sınıf Kitabı</a>
+                    <a href="#gifted/science-5-7" class="sidebar-item-sub block p-2.5">Fen Bilimleri 5. - 6. - 7. Sınıf Kitabı</a>
+                    <a href="#gifted/social-4" class="sidebar-item-sub block p-2.5">Sosyal Bilgiler 4. Sınıf Kitabı</a>
+                    <a href="#gifted/social-5-7" class="sidebar-item-sub block p-2.5">Sosyal Bilgiler 5. - 6. - 7. Sınıf Kitabı</a>
+                </div>
+            </div>
+
+            <!-- Sıkça Sorulan Sorular -->
+            <button onclick="openFAQPage()" class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left">
+                <div class="flex items-center space-x-3">
+                    <div class="sidebar-icon"><i class="fas fa-question-circle"></i></div>
+                    <span>Sıkça Sorulan Sorular</span>
+                </div>
+            </button>
+
+            <!-- Hesap İşlemleri -->
+            <div class="sidebar-dropdown">
+                <button class="sidebar-section flex items-center justify-between p-3 rounded-lg sidebar-item-main w-full text-left" onclick="toggleModernSubmenu('account')">
+                    <div class="flex items-center space-x-3">
+                        <div class="sidebar-icon"><i class="fas fa-user-cog"></i></div>
+                        <span>Hesap İşlemleri</span>
+                    </div>
+                    <i class="fas fa-chevron-down chevron-icon text-sm" id="account-chevron"></i>
+                </button>
+                <div class="sidebar-submenu" id="account-menu">
+                    <a href="#account/settings" class="sidebar-item-sub block p-2.5">Hesap Ayarları</a>
+                    <a href="#account/password" class="sidebar-item-sub block p-2.5">Şifre Değiştir</a>
+                    <button data-logout class="sidebar-item-sub block p-2.5 w-full text-left">
+                        <i class="fas fa-sign-out-alt w-4 mr-2"></i>Güvenli Çıkış
+                    </button>
+                </div>
+            </div>
+        </nav>
+
+        <!-- Bottom Actions -->
+        <div class="p-4 space-y-2 bg-white/5">
+            <div class="flex space-x-2">
+                <button data-refresh class="flex-1 bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors text-center" title="Yenile">
+                    <i class="fas fa-sync-alt text-sm"></i>
+                </button>
+                <button class="flex-1 bg-white/10 hover:bg-white/20 p-3 rounded-lg transition-colors text-center" title="Bildirimler">
+                    <i class="fas fa-bell text-sm"></i>
+                </button>
+            </div>
+            <div class="text-center">
+                <p class="text-xs text-white/60">Oturum: <span data-session-duration>-</span></p>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Ana İçerik Alanı -->
+    <main class="flex-1 flex flex-col bg-warm-gray">
+        <!-- Header -->
+        <header class="bg-white shadow-sm p-4 flex items-center justify-between border-b border-gray-200">
+            <div class="flex items-center space-x-4">
+                <button data-mobile-menu-toggle class="lg:hidden p-2 rounded-lg hover:bg-gray-100 transition-colors">
+                    <i class="fas fa-bars text-gray-600"></i>
+                </button>
+                <h1 class="text-xl font-semibold text-gray-800" id="pageTitle">Dashboard</h1>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                <button data-refresh class="p-2 rounded-lg hover:bg-gray-100 transition-colors" title="Yenile">
+                    <i class="fas fa-sync-alt text-gray-600"></i>
+                </button>
+                <button class="p-2 rounded-lg hover:bg-gray-100 transition-colors relative">
+                    <i class="fas fa-bell text-gray-600"></i>
+                    <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                </button>
+
+                <!-- User Dropdown -->
+                <div class="relative">
+                    <button class="flex items-center space-x-2 p-2 rounded-lg hover:bg-gray-100 transition-colors" onclick="toggleUserMenu()">
+                        <div class="w-8 h-8 bg-gradient-to-br from-primary to-secondary rounded-full"></div>
+                        <i class="fas fa-chevron-down text-xs text-gray-500"></i>
+                    </button>
+
+                    <div id="userMenu" class="hidden absolute right-0 mt-2 w-64 bg-white rounded-lg shadow-lg border py-2 z-50">
+                        <div class="px-4 py-2 border-b">
+                            <p class="font-medium text-gray-800" data-user-name>-</p>
+                            <p class="text-sm text-gray-500" data-user-email>-</p>
+                        </div>
+                        <button data-profile-update class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 flex items-center space-x-2">
+                            <i class="fas fa-user w-4"></i>
+                            <span>Profil Ayarları</span>
+                        </button>
+                        <hr class="my-1">
+                        <button data-logout class="w-full text-left px-4 py-2 text-sm hover:bg-gray-50 text-red-600 flex items-center space-x-2">
+                            <i class="fas fa-sign-out-alt w-4"></i>
+                            <span>Çıkış Yap</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Dashboard Content Container -->
+        <div class="flex-1 p-6 main-scroll smooth-scroll" data-content id="main-content">
+            <!-- Hero Section -->
+            <div class="hero-card mb-8">
+                <div class="grid md:grid-cols-2 gap-8 items-center">
+                    <div>
+                        <h2 class="text-3xl font-bold mb-4">Hoş Geldiniz!</h2>
+                        <p class="text-white/90 text-lg mb-6">Rehabilitasyon Eğitim Sistemi dashboard'unuzda. Hızlı işlemler için aşağıdaki kartları kullanabilirsiniz.</p>
+                        <div class="flex flex-wrap gap-3">
+                            <button class="action-btn action-btn-primary">
+                                <i class="fas fa-plus"></i>
+                                <span>Yeni BEP</span>
+                            </button>
+                            <button class="action-btn bg-white/20 text-white border-white/30 hover:bg-white/30">
+                                <i class="fas fa-folder-open"></i>
+                                <span>Dosyalarım</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="hidden md:block">
+                        <div class="bg-white/10 rounded-2xl p-6 text-center">
+                            <div class="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <i class="fas fa-graduation-cap text-3xl text-white"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-white mb-2">Eğitim Hub</h3>
+                            <p class="text-white/80">Tüm eğitim materyallerinize buradan erişin</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="stats-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-file-alt text-xl text-blue-600"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">24</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">Toplam BEP</h3>
+                    <p class="text-sm text-gray-600">Bu ay 3 yeni BEP</p>
+                </div>
+
+                <div class="stats-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-users text-xl text-green-600"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">12</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">Aktif Öğrenci</h3>
+                    <p class="text-sm text-gray-600">Son 30 günde</p>
+                </div>
+
+                <div class="stats-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-chart-line text-xl text-purple-600"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">89%</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">İlerleme Oranı</h3>
+                    <p class="text-sm text-gray-600">Hedeflere ulaşım</p>
+                </div>
+
+                <div class="stats-card">
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center">
+                            <i class="fas fa-clock text-xl text-orange-600"></i>
+                        </div>
+                        <span class="text-2xl font-bold text-gray-800">156</span>
+                    </div>
+                    <h3 class="font-semibold text-gray-800 mb-1">Toplam Saat</h3>
+                    <p class="text-sm text-gray-600">Bu ay eğitim süresi</p>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200 mb-8">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Hızlı İşlemler</h3>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                    <button class="action-btn text-center flex-col p-4">
+                        <i class="fas fa-plus text-2xl mb-2 text-primary"></i>
+                        <span>BEP Hazırla</span>
+                    </button>
+                    <button class="action-btn text-center flex-col p-4">
+                        <i class="fas fa-user-plus text-2xl mb-2 text-green-600"></i>
+                        <span>Öğrenci Ekle</span>
+                    </button>
+                    <button class="action-btn text-center flex-col p-4">
+                        <i class="fas fa-book text-2xl mb-2 text-purple-600"></i>
+                        <span>Kaynak İndir</span>
+                    </button>
+                    <button class="action-btn text-center flex-col p-4">
+                        <i class="fas fa-chart-bar text-2xl mb-2 text-orange-600"></i>
+                        <span>Rapor Görüntüle</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Son Aktiviteler -->
+            <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                <h3 class="text-lg font-semibold text-gray-800 mb-4">Son Aktiviteler</h3>
+                <div class="space-y-4">
+                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-file-alt text-blue-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-800">Yeni BEP oluşturuldu</p>
+                            <p class="text-sm text-gray-600">Ahmet Yılmaz için - 2 saat önce</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-4 p-3 bg-gray-50 rounded-lg">
+                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                            <i class="fas fa-check text-green-600"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="font-medium text-gray-800">Değerlendirme tamamlandı</p>
+                            <p class="text-sm text-gray-600">Zeynep Kaya - 5 saat önce</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Loading Overlay -->
+<div data-loading class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 flex items-center justify-center">
+    <div class="bg-white rounded-lg p-6 text-center">
+        <div class="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+        <p class="text-gray-600">İşlem yapılıyor...</p>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    // Sidebar submenu toggle function
+    function toggleModernSubmenu(menuId) {
+        const submenu = document.getElementById(menuId + '-menu');
+        const chevron = document.getElementById(menuId + '-chevron');
+
+        if (submenu) {
+            submenu.classList.toggle('active');
+        }
+
+        if (chevron) {
+            chevron.classList.toggle('rotated');
+        }
+    }
+
+    // User menu toggle
+    function toggleUserMenu() {
+        const userMenu = document.getElementById('userMenu');
+        if (userMenu) {
+            userMenu.classList.toggle('hidden');
+        }
+    }
+
+    // S.S.S Sayfası açma fonksiyonu
+    function openFAQPage() {
+        window.open('sss.html', '_blank');
+    }
+
+    // Close user menu on outside click
+    document.addEventListener('click', (e) => {
+        const userMenu = document.getElementById('userMenu');
+        const userButton = e.target.closest('button[onclick="toggleUserMenu()"]');
+
+        if (userMenu && !userMenu.contains(e.target) && !userButton) {
+            userMenu.classList.add('hidden');
+        }
+    });
+
+    // Mobile menu toggle
+    document.addEventListener('click', (e) => {
+        if (e.target.matches('[data-mobile-menu-toggle]')) {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('mobile-open');
+            }
+        }
+    });
+</script>
+
+<!-- JS Modülleri -->
+<script type="module" src="../assets/js/dashboardManager.js"></script>
+<script type="module" src="../assets/js/dashboard-ui.js"></script>
+</body>
+</html>

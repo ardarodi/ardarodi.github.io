@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sıkça Sorulan Sorular | Rehabilitasyon Eğitim Sistemi</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts - Poppins -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'poppins': ['Poppins', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#6366f1',
+                        'primary-dark': '#4f46e5',
+                        'secondary': '#8b5cf6',
+                        'accent': '#06b6d4',
+                        'soft-gray': '#f8fafc',
+                        'soft-blue': '#f1f5f9',
+                        'warm-gray': '#f9fafb'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9fafb;
+        }
+
+        .accordion-item {
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            margin-bottom: 1rem;
+            background: white;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .accordion-item:hover {
+            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+        }
+
+        .accordion-header {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .accordion-header:hover {
+            background-color: #f8fafc;
+        }
+
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            background-color: #ffffff;
+        }
+
+        .accordion-content.active {
+            max-height: 500px;
+        }
+
+        .accordion-body {
+            padding: 0 1.5rem 1.5rem;
+            color: #64748b;
+            line-height: 1.6;
+        }
+
+        .accordion-icon {
+            transition: transform 0.3s ease;
+            color: #6366f1;
+        }
+
+        .accordion-icon.rotated {
+            transform: rotate(180deg);
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            margin-top: 1rem;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .header-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+    </style>
+</head>
+<body class="bg-warm-gray min-h-screen">
+<!-- Header -->
+<header class="header-gradient text-white py-8">
+    <div class="max-w-4xl mx-auto px-6">
+        <div class="flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">Sıkça Sorulan Sorular</h1>
+                <p class="text-white/80">Rehabilitasyon Eğitim Sistemi hakkında merak edilenler</p>
+            </div>
+            <div class="hidden md:block">
+                <div class="w-16 h-16 bg-white/20 rounded-full flex items-center justify-center">
+                    <i class="fas fa-question-circle text-2xl"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- S.S.S Content -->
+<div class="max-w-4xl mx-auto px-6 py-8">
+    <!-- Back Button -->
+    <div class="mb-6">
+        <button onclick="window.close()" class="inline-flex items-center text-gray-600 hover:text-primary transition-colors">
+            <i class="fas fa-arrow-left mr-2"></i>
+            <span>Dashboard'a Dön</span>
+        </button>
+    </div>
+
+    <!-- S.S.S Accordion -->
+    <div class="space-y-4">
+        <!-- Nasıl Kayıt Olurum? -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion('faq1')">
+                <span>Nasıl Kayıt Olurum?</span>
+                <i class="fas fa-plus accordion-icon" id="faq1-icon"></i>
+            </div>
+            <div class="accordion-content" id="faq1-content">
+                <div class="accordion-body">
+                    <p>"Üye Ol" sayfasından gerekli bilgileri doldurarak rahatlıkla kayıt olabilirsiniz.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ödemeyi nasıl yapabilirim? -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion('faq2')">
+                <span>Ödemeyi nasıl yapabilirim?</span>
+                <i class="fas fa-plus accordion-icon" id="faq2-icon"></i>
+            </div>
+            <div class="accordion-content" id="faq2-content">
+                <div class="accordion-body">
+                    <p>Kredi kartı ya da havale yöntemi ile ödemenizi yapabilirsiniz.</p>
+                    <a href="#" class="download-btn">
+                        <i class="fas fa-download"></i>
+                        Dosyayı İndir
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Ödeme yaptım ama hesabım halen aktif olmadı -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion('faq3')">
+                <span>Ödeme yaptım ama hesabım halen aktif olmadı</span>
+                <i class="fas fa-plus accordion-icon" id="faq3-icon"></i>
+            </div>
+            <div class="accordion-content" id="faq3-content">
+                <div class="accordion-body">
+                    <p>Ödeme işleminizin tamamlanması 24 saat sürebilir. Eğer bu süre geçtikten sonra hala hesabınız aktif olmadıysa, lütfen destek ekibimizle iletişime geçin.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Aynı hesabı birden fazla öğretmen kullanabilir mi? -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion('faq4')">
+                <span>Aynı hesabı birden fazla öğretmen kullanabilir mi?</span>
+                <i class="fas fa-plus accordion-icon" id="faq4-icon"></i>
+            </div>
+            <div class="accordion-content" id="faq4-content">
+                <div class="accordion-body">
+                    <p>Evet, bir hesap birden fazla öğretmen tarafından kullanılabilir. Alt kullanıcı ekleme özelliği mevcuttur.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kullanım desteğine ihtiyacım var -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion('faq5')">
+                <span>Kullanım desteğine ihtiyacım var</span>
+                <i class="fas fa-plus accordion-icon" id="faq5-icon"></i>
+            </div>
+            <div class="accordion-content" id="faq5-content">
+                <div class="accordion-body">
+                    <p>Destek ekibimiz size yardımcı olmaktan mutluluk duyar. İletişim formumuz üzerinden bizlere ulaşabilirsiniz.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Kurulum yapmaya gerek var mı? -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion('faq6')">
+                <span>Kurulum yapmaya gerek var mı?</span>
+                <i class="fas fa-plus accordion-icon" id="faq6-icon"></i>
+            </div>
+            <div class="accordion-content" id="faq6-content">
+                <div class="accordion-body">
+                    <p>Hayır, sistemimiz tamamen web tabanlıdır. Herhangi bir kurulum yapmaya gerek yoktur.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Üyeliğimle kaç adet BEP hazırlayabilirim? -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion('faq7')">
+                <span>Üyeliğimle kaç adet BEP hazırlayabilirim?</span>
+                <i class="fas fa-plus accordion-icon" id="faq7-icon"></i>
+            </div>
+            <div class="accordion-content" id="faq7-content">
+                <div class="accordion-body">
+                    <p>Üyeliğiniz boyunca sınırsız sayıda BEP hazırlayabilirsiniz. Herhangi bir limit bulunmamaktadır.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Hazırladığım planda word formatında isimler yıldızla çıkıyor, pdf formatında boş çıkıyor -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion('faq8')">
+                <span>Hazırladığım planda word formatında isimler yıldızla çıkıyor, pdf formatında boş çıkıyor</span>
+                <i class="fas fa-plus accordion-icon" id="faq8-icon"></i>
+            </div>
+            <div class="accordion-content" id="faq8-content">
+                <div class="accordion-body">
+                    <p>Bu durum tarayıcınızın ayarları ile ilgilidir. PDF görüntüleyicinizi güncelleyin veya farklı bir tarayıcı deneyin.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- BÖP'ü nasıl hazırlayabilirim? -->
+        <div class="accordion-item">
+            <div class="accordion-header" onclick="toggleAccordion('faq9')">
+                <span>BÖP'ü nasıl hazırlayabilirim?</span>
+                <i class="fas fa-plus accordion-icon" id="faq9-icon"></i>
+            </div>
+            <div class="accordion-content" id="faq9-content">
+                <div class="accordion-body">
+                    <p>BÖP hazırlama için özel modülümüz mevcuttur. Dashboard'dan "BEP İşlemleri" bölümüne giderek BÖP hazırlayabilirsiniz.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contact Section -->
+    <div class="mt-12 bg-white rounded-2xl p-8 border border-gray-200 shadow-sm">
+        <div class="text-center">
+            <div class="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-4">
+                <i class="fas fa-headset text-2xl text-white"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-800 mb-2">Hala sorunuz mu var?</h3>
+            <p class="text-gray-600 mb-6">Destek ekibimiz size yardımcı olmaktan mutluluk duyar.</p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-primary hover:bg-primary-dark text-white px-6 py-3 rounded-lg font-medium transition-colors">
+                    <i class="fas fa-envelope mr-2"></i>
+                    İletişime Geç
+                </button>
+                <button class="bg-white hover:bg-gray-50 text-gray-700 px-6 py-3 rounded-lg font-medium border border-gray-300 transition-colors">
+                    <i class="fas fa-phone mr-2"></i>
+                    Bizi Arayın
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="text-center mt-8 py-6">
+        <p class="text-gray-500 text-sm">
+            © 2024 Rehabilitasyon Eğitim Sistemi. Tüm hakları saklıdır.
+        </p>
+    </div>
+</div>
+
+<!-- JavaScript -->
+<script>
+    function toggleAccordion(faqId) {
+        const content = document.getElementById(faqId + '-content');
+        const icon = document.getElementById(faqId + '-icon');
+
+        // Close all other accordions
+        const allContents = document.querySelectorAll('.accordion-content');
+        const allIcons = document.querySelectorAll('.accordion-icon');
+
+        allContents.forEach(item => {
+            if (item.id !== faqId + '-content') {
+                item.classList.remove('active');
+            }
+        });
+
+        allIcons.forEach(item => {
+            if (item.id !== faqId + '-icon') {
+                item.classList.remove('rotated');
+                item.classList.remove('fa-minus');
+                item.classList.add('fa-plus');
+            }
+        });
+
+        // Toggle current accordion
+        content.classList.toggle('active');
+        icon.classList.toggle('rotated');
+
+        if (content.classList.contains('active')) {
+            icon.classList.remove('fa-plus');
+            icon.classList.add('fa-minus');
+        } else {
+            icon.classList.remove('fa-minus');
+            icon.classList.add('fa-plus');
+        }
+    }
+
+    // Close accordion on outside click
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.accordion-item')) {
+            const allContents = document.querySelectorAll('.accordion-content');
+            const allIcons = document.querySelectorAll('.accordion-icon');
+
+            allContents.forEach(item => {
+                item.classList.remove('active');
+            });
+
+            allIcons.forEach(item => {
+                item.classList.remove('rotated');
+                item.classList.remove('fa-minus');
+                item.classList.add('fa-plus');
+            });
+        }
+    });
+</script>
+</body>
+</html>

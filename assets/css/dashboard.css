@@ -1,0 +1,385 @@
+/* Dashboard CSS - Rehabilitasyon Eğitim Sistemi */
+/* Modern, temiz ve performanslı CSS yapısı */
+
+/* ===============================
+   CORE VARIABLES & THEME
+   =============================== */
+:root {
+    /* Color Palette - Soft Light Theme */
+    --bg-primary: #ffffff;
+    --bg-secondary: #f8fafc;
+    --bg-accent: #f1f5f9;
+    --text-primary: #1e293b;
+    --text-secondary: #64748b;
+    --border-color: #e2e8f0;
+    --sidebar-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+    /* Shadows */
+    --shadow-soft: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+
+    /* Colors */
+    --primary: #6366f1;
+    --primary-dark: #4f46e5;
+    --secondary: #8b5cf6;
+    --accent: #06b6d4;
+
+    /* Spacing */
+    --sidebar-width: 18rem; /* 72 in Tailwind */
+
+    /* Transitions */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===============================
+   GLOBAL STYLES
+   =============================== */
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--bg-secondary);
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+/* ===============================
+   SCROLLBAR GIZLEME - TÜM TARAYICILAR
+   =============================== */
+/* WebKit tarayıcılar (Chrome, Safari, Edge) */
+::-webkit-scrollbar {
+    width: 0px;
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: transparent;
+}
+
+/* Firefox */
+* {
+    scrollbar-width: none;
+}
+
+/* Utility classes */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* Internet Explorer 10+ */
+    scrollbar-width: none;     /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none;             /* WebKit */
+}
+
+.main-scroll {
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.main-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.sidebar-scroll {
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.sidebar-scroll::-webkit-scrollbar {
+    display: none;
+}
+
+.smooth-scroll {
+    scroll-behavior: smooth;
+}
+
+/* ===============================
+   SIDEBAR STYLES
+   =============================== */
+.sidebar-modern {
+    background: var(--sidebar-bg);
+    box-shadow: 2px 0 10px rgba(0,0,0,0.1);
+    width: var(--sidebar-width);
+}
+
+.sidebar-section {
+    transition: var(--transition-normal);
+    border-radius: 0.5rem;
+}
+
+.sidebar-section:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.sidebar-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height var(--transition-slow);
+    background: rgba(255,255,255,0.03);
+    border-left: 2px solid rgba(255,255,255,0.1);
+    margin-left: 1rem;
+}
+
+.sidebar-submenu.active {
+    max-height: 800px;
+}
+
+.sidebar-item-main {
+    color: #e0e7ff;
+    font-weight: 500;
+    font-size: 0.95rem;
+}
+
+.sidebar-item-sub {
+    color: #c7d2fe;
+    font-size: 0.85rem;
+    font-weight: 400;
+    padding-left: 1.5rem;
+    border-radius: 6px;
+    margin: 2px 8px;
+    transition: var(--transition-fast);
+}
+
+.sidebar-item-sub:hover {
+    background: rgba(255,255,255,0.1);
+    color: #ffffff;
+    padding-left: 1.75rem;
+}
+
+.sidebar-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.chevron-icon {
+    transition: transform var(--transition-normal);
+    color: #a5b4fc;
+}
+
+.chevron-icon.rotated {
+    transform: rotate(180deg);
+}
+
+.sidebar-item-active {
+    background: rgba(255,255,255,0.15) !important;
+    color: #ffffff !important;
+    font-weight: 600;
+}
+
+/* ===============================
+   MAIN CONTENT STYLES
+   =============================== */
+.hero-card {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 1.5rem;
+    padding: 2rem;
+    color: white;
+    box-shadow: var(--shadow-medium);
+}
+
+.stats-card {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    box-shadow: var(--shadow-soft);
+    transition: var(--transition-normal);
+}
+
+.stats-card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.action-btn {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    color: var(--text-primary);
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 500;
+    transition: var(--transition-normal);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+}
+
+.action-btn:hover {
+    background: var(--bg-accent);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-soft);
+}
+
+.action-btn-primary {
+    background: var(--primary);
+    color: white;
+    border-color: var(--primary);
+}
+
+.action-btn-primary:hover {
+    background: var(--primary-dark);
+}
+
+/* ===============================
+   RESPONSIVE DESIGN
+   =============================== */
+@media (max-width: 1024px) {
+    .sidebar-modern {
+        transform: translateX(-100%);
+        position: fixed;
+        z-index: 50;
+        height: 100vh;
+        transition: transform var(--transition-normal);
+    }
+
+    .sidebar-modern.mobile-open {
+        transform: translateX(0);
+    }
+}
+
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 16rem;
+    }
+
+    .hero-card {
+        padding: 1.5rem;
+    }
+
+    .stats-card {
+        padding: 1rem;
+    }
+}
+
+/* ===============================
+   LOADING & ANIMATIONS
+   =============================== */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+.fade-out {
+    opacity: 0;
+    transition: opacity var(--transition-normal);
+}
+
+/* ===============================
+   UTILITY CLASSES
+   =============================== */
+.glass-effect {
+    background: rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.card-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-medium);
+}
+
+.input-focus:focus {
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+    border-color: var(--primary);
+}
+
+/* ===============================
+   COMPONENT SPECIFIC STYLES
+   =============================== */
+
+/* User Menu Dropdown */
+#userMenu {
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-medium);
+}
+
+/* Loading Overlay */
+[data-loading] {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+/* Content Areas */
+[data-content] {
+    transition: opacity var(--transition-normal);
+}
+
+[data-content].loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+/* Header Styles */
+header {
+    background: var(--bg-primary);
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+}
+
+/* ===============================
+   DARK MODE DESTEĞI (Gelecek için hazır)
+   =============================== */
+@media (prefers-color-scheme: dark) {
+    /* Şu an için boş - ileride dark mode eklenirse */
+}
+
+/* ===============================
+   PRINT STYLES
+   =============================== */
+@media print {
+    .sidebar-modern,
+    header,
+    [data-loading] {
+        display: none !important;
+    }
+
+    body {
+        background: white !important;
+    }
+}
+
+/* ===============================
+   ACCESSIBILITY
+   =============================== */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Focus indicators */
+.sidebar-section:focus,
+.action-btn:focus,
+button:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+    :root {
+        --border-color: #000000;
+        --text-secondary: #000000;
+    }
+}

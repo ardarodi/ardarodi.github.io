@@ -1,0 +1,50 @@
+# GitHub Pages Jekyll Configuration
+# =================================
+
+# Site settings
+title: "Rehabilitasyon Eğitim Sistemi"
+description: "Modern eğitim platformu"
+baseurl: "" # GitHub Pages için boş bırak
+url: "https://ardarodi.github.io" # GitHub Pages URL'in
+
+# Jekyll settings
+markdown: kramdown
+highlighter: rouge
+permalink: pretty
+
+# Plugins
+plugins:
+  - jekyll-sitemap
+  - jekyll-feed
+
+# Exclude files from processing
+exclude:
+  - README.md
+  - LICENSE
+  - CNAME
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Include files
+include:
+  - .htaccess
+  - .nojekyll
+
+# Collections (sayfa yapısı için)
+collections:
+  pages:
+    output: true
+    permalink: /:name/
+
+# Defaults
+defaults:
+  - scope:
+      path: ""
+      type: "pages"
+    values:
+      layout: "default"
+
+# Security
+safe: true
