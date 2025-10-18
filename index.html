@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly Planner - Budapest</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0a0a1a;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.2) 0px, transparent 50%),
+                radial-gradient(at 100% 100%, rgba(59, 130, 246, 0.2) 0px, transparent 50%),
+                radial-gradient(at 0% 100%, rgba(139, 92, 246, 0.2) 0px, transparent 50%);
+            min-height: 100vh;
+            padding: 40px 20px;
+            color: #fff;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 0.8s ease-out;
+        }
+
+        .header h1 {
+            font-size: 4em;
+            font-weight: 800;
+            background: linear-gradient(135deg, #667eea 0%, #a855f7 50%, #ec4899 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 20px;
+            letter-spacing: -2px;
+            text-shadow: 0 0 80px rgba(168, 85, 247, 0.5);
+        }
+
+        .header .subtitle {
+            font-size: 1.4em;
+            color: #a0a0b5;
+            font-weight: 300;
+            margin-bottom: 15px;
+        }
+
+        .header .location {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 12px 30px;
+            border-radius: 50px;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 1em;
+            font-weight: 500;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+            margin-bottom: 50px;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 24px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, transparent 0%, rgba(255, 255, 255, 0.05) 100%);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
+        }
+
+        .stat-card .icon {
+            font-size: 3em;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .stat-card .number {
+            font-size: 3em;
+            font-weight: 800;
+            margin-bottom: 10px;
+            color: #ffffff;
+        }
+
+        .stat-card .label {
+            color: #ffffff;
+            font-size: 1em;
+            font-weight: 500;
+            letter-spacing: 0.5px;
+        }
+
+        .legend {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 35px;
+            border-radius: 24px;
+            margin-bottom: 40px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        .legend h3 {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 25px;
+            color: #fff;
+        }
+
+        .legend-items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 12px;
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .legend-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateX(5px);
+        }
+
+        .legend-color {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            flex-shrink: 0;
+        }
+
+        .legend-item span {
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .schedule-wrapper {
+            background: rgba(255, 255, 255, 0.03);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 35px;
+            overflow: hidden;
+            animation: fadeInUp 0.8s ease-out 0.6s both;
+        }
+
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .schedule-header h2 {
+            font-size: 2em;
+            font-weight: 700;
+        }
+
+        .view-toggle {
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 6px;
+            border-radius: 12px;
+        }
+
+        .view-toggle button {
+            padding: 10px 20px;
+            border: none;
+            background: transparent;
+            color: #a0a0b5;
+            font-family: 'Poppins', sans-serif;
+            font-weight: 500;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .view-toggle button.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        .schedule-container {
+            overflow-x: auto;
+            overflow-y: visible;
+        }
+
+        .schedule-container::-webkit-scrollbar {
+            height: 8px;
+        }
+
+        .schedule-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+        }
+
+        .schedule-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+        }
+
+        .schedule {
+            display: grid;
+            grid-template-columns: 100px repeat(7, 1fr);
+            gap: 3px;
+            min-width: 1200px;
+        }
+
+        .time-label, .day-header {
+            padding: 20px 15px;
+            text-align: center;
+            font-weight: 600;
+            border-radius: 12px;
+        }
+
+        .day-header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            color: #fff;
+            font-size: 1.1em;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .time-label {
+            background: rgba(255, 255, 255, 0.02);
+            font-size: 0.9em;
+            color: #a0a0b5;
+            font-weight: 500;
+        }
+
+        .time-slot {
+            background: rgba(255, 255, 255, 0.02);
+            min-height: 70px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .time-slot:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .event {
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 0.9em;
+            text-align: center;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .event::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .event:hover::before {
+            opacity: 1;
+        }
+
+        .event:hover {
+            transform: scale(1.02);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .event-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+            font-size: 1em;
+            letter-spacing: 0.3px;
+        }
+
+        .event-time {
+            font-size: 0.85em;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .class { 
+            background: linear-gradient(135deg, rgba(74, 144, 226, 0.9), rgba(53, 122, 189, 0.9));
+            border-color: rgba(74, 144, 226, 0.3);
+        }
+        .study { 
+            background: linear-gradient(135deg, rgba(123, 104, 238, 0.9), rgba(106, 90, 205, 0.9));
+            border-color: rgba(123, 104, 238, 0.3);
+        }
+        .zoom { 
+            background: linear-gradient(135deg, rgba(155, 89, 182, 0.9), rgba(142, 68, 173, 0.9));
+            border-color: rgba(155, 89, 182, 0.3);
+        }
+        .sport { 
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.9), rgba(238, 90, 82, 0.9));
+            border-color: rgba(255, 107, 107, 0.3);
+        }
+        .wolt { 
+            background: linear-gradient(135deg, rgba(78, 205, 196, 0.9), rgba(68, 179, 170, 0.9));
+            border-color: rgba(78, 205, 196, 0.3);
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 50px;
+            padding: 30px;
+            animation: fadeIn 1s ease-out 0.8s both;
+        }
+
+        .footer .tip {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px 35px;
+            border-radius: 16px;
+            display: inline-block;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+            font-weight: 500;
+        }
+
+        .footer .tip .icon {
+            font-size: 1.5em;
+            margin-right: 10px;
+        }
+
+        .footer .credits {
+            color: #a0a0b5;
+            font-size: 0.95em;
+            font-weight: 400;
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 2.5em; }
+            .header .subtitle { font-size: 1.1em; }
+            .schedule { min-width: 900px; }
+            .stat-card .number { font-size: 2.5em; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📚 Weekly Planner</h1>
+            <p class="subtitle">Organize your life with style</p>
+            <div class="location">📍 Budapest, Hungary</div>
+        </div>
+
+        <div class="stats">
+            <div class="stat-card classes">
+                <span class="icon">🎓</span>
+                <div class="number">16.5</div>
+                <div class="label">Saat Ders</div>
+            </div>
+            <div class="stat-card study">
+                <span class="icon">📖</span>
+                <div class="number">9</div>
+                <div class="label">Saat Çalışma</div>
+            </div>
+            <div class="stat-card sport">
+                <span class="icon">💪</span>
+                <div class="number">4</div>
+                <div class="label">Saat Spor</div>
+            </div>
+            <div class="stat-card wolt">
+                <span class="icon">🚴</span>
+                <div class="number">Esnek</div>
+                <div class="label">Wolt Delivery</div>
+            </div>
+        </div>
+
+        <div class="legend">
+            <h3>🎨 Aktivite Kategorileri</h3>
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-color class"></div>
+                    <span>Üniversite Dersleri</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color zoom"></div>
+                    <span>Zoom Özel Dersler</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color study"></div>
+                    <span>Kendi Çalışma</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color sport"></div>
+                    <span>Spor & Fitness</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color wolt"></div>
+                    <span>Wolt Delivery</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="schedule-wrapper">
+            <div class="schedule-header">
+                <h2>📅 Haftalık Program</h2>
+            </div>
+            <div class="schedule-container">
+                <div class="schedule" id="schedule"></div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="tip">
+                <span class="icon">💡</span>
+                Wolt için en uygun saatler: Akşam 17:00-21:00 & Hafta sonu öğle saatleri
+            </div>
+            <p class="credits">Designed with ❤️ for GitHub Pages</p>
+        </div>
+    </div>
+
+    <script>
+        const schedule = {
+            times: ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00', '22:00'],
+            days: ['Pazartesi', 'Salı', 'Çarşamba', 'Perşembe', 'Cuma', 'Cumartesi', 'Pazar'],
+            events: {
+                'Pazartesi': [
+                    { start: 8, end: 10, title: 'Basic Mathematics', type: 'class', time: '08:00-09:40' },
+                    { start: 10, end: 11, title: 'Spor', type: 'sport', time: '10:00-11:00' },
+                    { start: 13, end: 15, title: 'Math Foundations', type: 'class', time: '13:30-15:10' },
+                    { start: 17, end: 20, title: 'Wolt Önerilen', type: 'wolt', time: '17:00-20:00' },
+                    { start: 20, end: 22, title: 'Zoom Özel Ders', type: 'zoom', time: '20:00-22:20' }
+                ],
+                'Salı': [
+                    { start: 8, end: 10, title: 'Basic Mathematics', type: 'class', time: '08:00-09:40' },
+                    { start: 10, end: 11, title: 'Spor', type: 'sport', time: '10:00-11:00' },
+                    { start: 15, end: 20, title: 'Wolt Önerilen', type: 'wolt', time: '15:00-20:00' },
+                    { start: 20, end: 22, title: 'Zoom Özel Ders', type: 'zoom', time: '20:00-22:20' }
+                ],
+                'Çarşamba': [
+                    { start: 8, end: 10, title: 'Learning Methodology', type: 'class', time: '08:00-09:40' },
+                    { start: 11, end: 13, title: 'Physics', type: 'class', time: '11:40-13:20' },
+                    { start: 13, end: 16, title: 'Problemsolving & MFI', type: 'class', time: '13:30-16:05' },
+                    { start: 17, end: 21, title: 'Wolt Önerilen', type: 'wolt', time: '17:00-21:00' }
+                ],
+                'Perşembe': [
+                    { start: 10, end: 11, title: 'Spor', type: 'sport', time: '10:00-11:00' },
+                    { start: 13, end: 16, title: 'Math Foundations', type: 'class', time: '13:30-16:05' },
+                    { start: 17, end: 20, title: 'Wolt Önerilen', type: 'wolt', time: '17:00-20:00' },
+                    { start: 20, end: 22, title: 'Zoom Özel Ders', type: 'zoom', time: '20:00-22:20' }
+                ],
+                'Cuma': [
+                    { start: 10, end: 11, title: 'Spor', type: 'sport', time: '10:00-11:00' },
+                    { start: 13, end: 15, title: 'Kendi Çalışma', type: 'study', time: '13:00-15:00' },
+                    { start: 17, end: 22, title: 'Wolt Prime Time', type: 'wolt', time: '17:00-22:00' }
+                ],
+                'Cumartesi': [
+                    { start: 11, end: 15, title: 'Wolt Prime Time', type: 'wolt', time: '11:00-15:00' },
+                    { start: 17, end: 22, title: 'Wolt Prime Time', type: 'wolt', time: '17:00-22:00' }
+                ],
+                'Pazar': [
+                    { start: 11, end: 15, title: 'Wolt Prime Time', type: 'wolt', time: '11:00-15:00' },
+                    { start: 17, end: 21, title: 'Wolt Önerilen', type: 'wolt', time: '17:00-21:00' }
+                ]
+            }
+        };
+
+        function renderSchedule() {
+            const scheduleEl = document.getElementById('schedule');
+            
+            scheduleEl.innerHTML = '<div class="time-label"></div>';
+            schedule.days.forEach(day => {
+                scheduleEl.innerHTML += `<div class="day-header">${day}</div>`;
+            });
+
+            schedule.times.forEach(time => {
+                scheduleEl.innerHTML += `<div class="time-label">${time}</div>`;
+                
+                schedule.days.forEach(day => {
+                    const hour = parseInt(time.split(':')[0]);
+                    const dayEvents = schedule.events[day] || [];
+                    const event = dayEvents.find(e => hour >= e.start && hour < e.end);
+                    
+                    if (event && hour === event.start) {
+                        const duration = event.end - event.start;
+                        scheduleEl.innerHTML += `
+                            <div class="time-slot" style="grid-row: span ${duration}">
+                                <div class="event ${event.type}">
+                                    <div class="event-title">${event.title}</div>
+                                    <div class="event-time">${event.time}</div>
+                                </div>
+                            </div>
+                        `;
+                    } else if (!event || hour !== event.start) {
+                        const isOccupied = dayEvents.some(e => hour >= e.start && hour < e.end);
+                        if (!isOccupied) {
+                            scheduleEl.innerHTML += `<div class="time-slot"></div>`;
+                        }
+                    }
+                });
+            });
+        }
+
+        renderSchedule();
+    </script>
+</body>
+</html>
